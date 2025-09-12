@@ -1,6 +1,7 @@
 import os
 import sys
 from dataclasses import dataclass
+import yaml
 
 from catboost import CatBoostRegressor
 from sklearn.ensemble import (
@@ -27,6 +28,10 @@ class ModelTrainer:
     def __init__(self):
         self.model_trainer_config=ModelTrainerConfig()
 
+        # Load params.yml once when ModleTrainer is initialized
+        with open("src\params.yml","r") as f:
+            self.params = yaml.safe_load(f)
+
 
     def initiate_model_trainer(self,train_array,test_array):
         try:
@@ -38,13 +43,13 @@ class ModelTrainer:
                 test_array[:,-1]
             )
             models = {
-                "Random Forest": RandomForestRegressor(),
-                "Decision Tree": DecisionTreeRegressor(),
-                "Gradient Boosting": GradientBoostingRegressor(),
-                "Linear Regression": LinearRegression(),
-                "XGBRegressor": XGBRegressor(),
-                "CatBoosting Regressor": CatBoostRegressor(verbose=False),
-                "AdaBoost Regressor": AdaBoostRegressor(),
+                "Random Forest": RandomForestRegressor(**self.params["RandomForest"]),
+                "Decision Tree": DecisionTreeRegressor(**self.params["DecisionTree"]),
+                "Gradient Boosting": GradientBoostingRegressor(**self.params["GradientBoosting"]),
+                "Linear Regression": LinearRegression(**self.params["LinearRegression"]),
+                "XGBRegressor": XGBRegressor(**self.params["XGBRegressor"]),
+                "CatBoosting Regressor": CatBoostRegressor(**self.params["CatBoost"]),
+                "AdaBoost Regressor": AdaBoostRegressor(**self.params["AdaBoost"]),
             }
 
             model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
