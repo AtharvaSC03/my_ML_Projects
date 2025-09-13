@@ -130,4 +130,3 @@ Then open **[http://127.0.0.1:5000/](http://127.0.0.1:5000/)** in your browser.
 ##  Results
 <img width="757" height="916" alt="image" src="https://github.com/user-attachments/assets/ebec0e6f-f0df-4fcb-9401-8075fc8bc8fc" />
 
-```
